@@ -2,10 +2,12 @@ import api.models.BookDetails;
 import api.profile.UserProfileApi;
 import helpers.WithAuthentication;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("UI-API-TEST")
 public class BookStoreDemoTests extends TestBase {
-    @DisplayName("Проверка удаления книги из профиля через UI")
+    @DisplayName("UI удаление книги из профиля")
     @WithAuthentication
     @Test
     public void deleteBookTest() {
