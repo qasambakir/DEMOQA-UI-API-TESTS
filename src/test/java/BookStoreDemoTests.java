@@ -1,9 +1,11 @@
-import api.models.BookDetails;
+import api.models.*;
 import api.profile.UserProfileApi;
 import helpers.WithAuthentication;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import static api.profile.UserProfileApi.deleteAllBooksFromProfile;
 
 @Tag("UI-API-TEST")
 public class BookStoreDemoTests extends TestBase {
@@ -13,7 +15,7 @@ public class BookStoreDemoTests extends TestBase {
     @Test
     public void deleteBookTest() {
         // Удаляем все книги из профиля
-        UserProfileApi.deleteAllBooksFromProfile(userId);
+        deleteAllBooksFromProfile(userId);
 
         // Получаем все книги из профиля
         userProfileApi.getAllBooksFromProfile(userId);
@@ -25,7 +27,7 @@ public class BookStoreDemoTests extends TestBase {
         libraryApi.addRandomBookToProfile(userId, book);
 
         // Проверяем, что книга добавлена
-        UserProfileApi.verifyBookIsbnInProfile(userId, book);
+        userProfileApi.verifyBookIsbnInProfile(userId, book);
 
         // Проверяем на UI
         UserProfilePage.openProfilePage()
@@ -34,6 +36,6 @@ public class BookStoreDemoTests extends TestBase {
                 .checkProfileHasNotBookByTitle(book.getTitle());
 
         // Проверяем, что профиль пуст
-        UserProfileApi.verifyProfileIsEmpty(userId);
+        userProfileApi.verifyProfileIsEmpty(userId);
     }
 }

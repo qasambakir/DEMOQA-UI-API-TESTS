@@ -23,11 +23,11 @@ public class UserProfileApi {
     }
 
     @Step("Получить список всех книг в профиле пользователя с ID {userId}")
-    public static UserProfileBooksModel getAllBooksFromProfile(String userId) {
+    public UserProfileBooksModel getAllBooksFromProfile(String userId) {
         return given(requestWithToken(AuthorizationApi.getToken()))
                 .pathParam("userId", userId)
                 .when()
-                .get("/Account/v1/User/{userId}")
+                .get("/Account/v1/User/dc3f1db4-40d2-42c9-9e7d-d39606587d71")
                 .then()
                 .log().ifError()
                 .statusCode(200)
@@ -36,7 +36,7 @@ public class UserProfileApi {
     }
 
     @Step("Проверить, что ISBN книги в профиле пользователя с ID {userId} совпадает с ISBN книги из библиотеки")
-    public static void verifyBookIsbnInProfile(String userId, BookDetails book) {
+    public void verifyBookIsbnInProfile(String userId, BookDetails book) {
         UserProfileBooksModel addedBookInProfile = getAllBooksFromProfile(userId);
         assertThat(addedBookInProfile.getBooks())
                 .withFailMessage("Книга не найдена в профиле!")
@@ -44,7 +44,7 @@ public class UserProfileApi {
     }
 
     @Step("Проверить, что профиль пользователя с ID {userId} не содержит книг")
-    public static void verifyProfileIsEmpty(String userId) {
+    public void verifyProfileIsEmpty(String userId) {
         UserProfileBooksModel allBooksInProfile = getAllBooksFromProfile(userId);
         assertThat(allBooksInProfile.getBooks())
                 .withFailMessage("Профиль не пуст!")
