@@ -9,6 +9,7 @@ import java.util.List;
 
 @Data
 public class BookCollectionModel {
+
     @JsonProperty("books")
     private List<BookDetails> books;
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookItemModel {
+public class IsbnItem {
 
     private String isbn;
 

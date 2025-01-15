@@ -1,9 +1,10 @@
 package api.library;
 
+import api.authentication.AuthorizationApi;
 import api.models.BookDetails;
-import api.models.libraryModels.AddBookListModel;
 import api.models.libraryModels.BookCollectionModel;
-import api.models.libraryModels.BookItemModel;
+import api.models.libraryModels.IsbnItem;
+import api.models.libraryModels.AddBookListModel;
 import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
 
@@ -15,33 +16,32 @@ import static io.restassured.RestAssured.given;
 
 public class LibraryApi {
 
-    @Step("Получить все доступные книги из библиотеки, отправив API запрос")
-    public BookCollectionModel getAllBooks() {
+    @Step("Получить все доступные книги из каталога, отправив API запрос")
+    public BookCollectionModel getAllBooksInStore() {
         return given(requestWithoutToken)
                 .when()
-                .get("/Library/v1/Books")
+                .get("/BookStore/v1/Books")
                 .then()
                 .log().all()
                 .extract().as(BookCollectionModel.class);
     }
-
-    @Step("Выбрать случайную книгу из библиотеки")
-    public BookDetails selectRandomBook() {
-        BookCollectionModel bookCollection = getAllBooks();
-        int bookIndex = new Faker().number().numberBetween(0, bookCollection.getBooks().size() - 1);
-        return bookCollection.getBooks().get(bookIndex);
+    @Step("Выбрать случайную книгу из каталога")
+    public BookDetails selectRandomBook(){
+        BookCollectionModel arrayOfBooksStore = getAllBooksInStore();
+        int bookIndex = new Faker().number().numberBetween(0, arrayOfBooksStore.getBooks().size() - 1);
+        return arrayOfBooksStore.getBooks().get(bookIndex);
     }
-
     @Step("Добавить случайную книгу в профиль, отправив API запрос")
-    public void addRandomBookToProfile(String userId, BookDetails book) {
-        BookItemModel bookItemModel = new BookItemModel(book.getIsbn());
-        List<BookItemModel> bookItemList = List.of(bookItemModel);
-        AddBookListModel addBookListModel = new AddBookListModel(userId, bookItemList);
+    public void addRandomBookToProfile(String userId, BookDetails book){
+        IsbnItem isbnItem = new IsbnItem(book.getIsbn());
+        List<IsbnItem> isbnItemList  = List.of(isbnItem);
+        AddBookListModel addBookListModel = new AddBookListModel(userId, isbnItemList);
 
-        given(requestWithToken)
+        given(requestWithToken(AuthorizationApi.getToken()))
                 .body(addBookListModel)
+                .log().all()
                 .when()
-                .post("/Library/v1/Books")
+                .post("/BookStore/v1/Books")
                 .then()
                 .log().all()
                 .statusCode(201);

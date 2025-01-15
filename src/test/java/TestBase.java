@@ -24,9 +24,9 @@ public class TestBase {
     protected String userId = loginModel.getUserId();
     protected String expires = loginModel.getExpires();
 
-    protected final UserProfileApi userProfileApi = new UserProfileApi();
-    protected final LibraryApi libraryApi = new LibraryApi();
-    protected final UserProfilePage UserProfilePage = new UserProfilePage();
+     UserProfileApi userProfileApi = new UserProfileApi();
+     LibraryApi libraryApi = new LibraryApi();
+     UserProfilePage UserProfilePage = new UserProfilePage();
 
     @BeforeAll
     public static void setUp() {

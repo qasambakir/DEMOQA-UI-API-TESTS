@@ -1,11 +1,18 @@
 plugins {
     id 'java-library'
     id 'io.qameta.allure' version '2.11.2'
-    id "io.freefair.lombok" version "8.4"
+    id "io.freefair.lombok" version "8.10.2"
 }
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://company/com/maven2")
+    }
+    mavenLocal()
+    flatDir {
+        dirs "libs"
+    }
 }
 
 def restAssuredVersion = "5.3.1",
@@ -35,13 +42,15 @@ dependencies {
             'org.slf4j:slf4j-simple:2.0.7',
             'com.github.javafaker:javafaker:1.0.2',
             'org.assertj:assertj-core:3.26.3',
-            'com.codeborne:selenide:7.5.1',
+            'com.codeborne:selenide:7.7.0',
             'org.aspectj:aspectjweaver:1.9.7',
             'com.github.javafaker:javafaker:1.0.2',
+            'io.rest-assured:rest-assured:5.3.0',
             "io.qameta.allure:allure-selenide:$allureVersion"
 
     )
 }
+
 
 test {
     useJUnitPlatform()
@@ -49,7 +58,6 @@ test {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-
 }
 
 tasks.withType(Test) {
